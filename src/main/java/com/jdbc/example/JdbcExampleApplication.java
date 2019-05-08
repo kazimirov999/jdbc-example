@@ -1,5 +1,6 @@
 package com.jdbc.example;
 
+import com.jdbc.example.jpa.mapping.DmlCreationManager;
 import com.jdbc.example.repository.ProductRepository;
 import com.jdbc.example.service.IProductService;
 import com.jdbc.example.service.ProductService;
@@ -14,10 +15,9 @@ public class JdbcExampleApplication {
         DBManager.init(dbParams[0], dbParams[1], dbParams[2]);
         Connection connection = DBManager.getInstance().getConnection();
 
-        IProductService productService = new ProductService(new ProductRepository(connection));
-
-
-        System.out.println(productService.getAllProducts());
+        DmlCreationManager creationManager =
+                new DmlCreationManager("com.jdbc.example.domain", "store", connection);
+        creationManager.createDataBaseDml();
 
     }
 
