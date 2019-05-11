@@ -2,12 +2,14 @@ package com.jdbc.example.domain;
 
 import com.jdbc.example.jpa.mapping.annotation.Column;
 import com.jdbc.example.jpa.mapping.annotation.Entity;
+import com.jdbc.example.jpa.mapping.annotation.Id;
 import com.jdbc.example.jpa.mapping.annotation.Table;
 
 @Entity
 @Table("PRODUCT")
 public class Product {
 
+    @Id
     private int id;
     @Column(name = "NAME")
     private String name;

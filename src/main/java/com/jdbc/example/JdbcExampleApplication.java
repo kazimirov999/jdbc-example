@@ -16,7 +16,7 @@ public class JdbcExampleApplication {
         Connection connection = DBManager.getInstance().getConnection();
 
         DmlCreationManager creationManager =
-                new DmlCreationManager("com.jdbc.example.domain", "store", connection);
+                new DmlCreationManager("com.jdbc.example.domain", "jdbc-example", connection);
         creationManager.createDataBaseDml();
 
     }

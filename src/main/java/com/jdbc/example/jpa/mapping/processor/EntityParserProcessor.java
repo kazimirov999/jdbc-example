@@ -6,6 +6,10 @@ import com.jdbc.example.jpa.mapping.annotation.Id;
 import com.jdbc.example.jpa.mapping.annotation.Table;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
+import org.reflections.scanners.FieldAnnotationsScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -18,7 +22,7 @@ public final class EntityParserProcessor {
 
     public static Collection<EntityDescriptor> generateEntityDescriptors(String packageScan) {
 
-        Set<Class<?>> clazzes = new Reflections(packageScan).getSubTypesOf(Object.class)
+        Set<Class<?>> clazzes = new Reflections(packageScan, new SubTypesScanner(false)).getSubTypesOf(Object.class)
                 .stream()
                 .filter(clazz -> clazz.getAnnotation(Entity.class) != null)
                 .collect(Collectors.toSet());
@@ -60,7 +64,7 @@ public final class EntityParserProcessor {
     }
 
     private static String getPrimaryKey(Class<?> clazz) {
-        Set<Field> fields = new Reflections(clazz).getFieldsAnnotatedWith(Id.class);
+        Set<Field> fields = ReflectionUtils.getFields(clazz, ReflectionUtils.withAnnotation(Id.class));
         if (fields == null || fields.size() != 1) {
             throw new RuntimeException("Entity must have one @Id");
         }

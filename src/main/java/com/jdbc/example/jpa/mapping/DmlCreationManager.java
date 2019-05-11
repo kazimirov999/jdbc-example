@@ -51,21 +51,28 @@ public class DmlCreationManager {
     private String createColumns(EntityDescriptor entityDescriptor) {
         String primaryKeyColumn = entityDescriptor.getPrimaryKey() + " "
                 + entityDescriptor.getColumnNameAgainstType().get(entityDescriptor.getPrimaryKey())
-                + " not null primary key,";
+                + " not null primary key";
 
-        String columnsDescription = entityDescriptor.getColumnNameAgainstType().entrySet()
+        List<String> columnsDescriptions = entityDescriptor.getColumnNameAgainstType().entrySet()
                 .stream()
-                .map(entry -> entry.getKey() + " " + entry.getValue() + ",")
-                .collect(Collectors.toList()).toString();
+                .filter(stringStringEntry -> !stringStringEntry.getKey().equals(entityDescriptor.getPrimaryKey()))
+                .map(entry -> entry.getKey() + " " + this.javaTypesAgainstSqlTypes.get(entry.getValue()))
+                .collect(Collectors.toList());
 
-        return primaryKeyColumn + columnsDescription.substring(0, columnsDescription.length() - 1);
+        StringBuilder sb = new StringBuilder(primaryKeyColumn);
+        columnsDescriptions.forEach(s -> {
+            sb.append(", ");
+            sb.append(s);
+        });
+
+        return sb.toString();
     }
 
     private void initTypes(Map<String, String> javaTypesAgainstSqlTypes) {
-        javaTypesAgainstSqlTypes.put("String", "TEXT");
-        javaTypesAgainstSqlTypes.put("Integer", "INT");
-        javaTypesAgainstSqlTypes.put("Double", "DOUBLE");
-        javaTypesAgainstSqlTypes.put("Float", "FLOAT");
+        javaTypesAgainstSqlTypes.put("java.lang.String", "TEXT");
+        javaTypesAgainstSqlTypes.put("int", "INT");
+        javaTypesAgainstSqlTypes.put("double", "DOUBLE");
+        javaTypesAgainstSqlTypes.put("float", "FLOAT");
     }
 
 
