@@ -6,10 +6,7 @@ import com.jdbc.example.jpa.mapping.annotation.Id;
 import com.jdbc.example.jpa.mapping.annotation.Table;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
-import org.reflections.scanners.FieldAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -31,7 +28,7 @@ public final class EntityParserProcessor {
         }
         List<EntityDescriptor> descriptors = new ArrayList<>();
         return clazzes.stream()
-                .map(c -> new EntityDescriptor(getTableName(c), getColumsAgainstTypes(c), getPrimaryKey(c))
+                .map(c -> new EntityDescriptor(getTableName(c), getColumnsAgainstTypes(c), getPrimaryKey(c))
                 ).collect(Collectors.toSet());
     }
 
@@ -43,7 +40,7 @@ public final class EntityParserProcessor {
         return clazz.getSimpleName();
     }
 
-    private static Map<String, String> getColumsAgainstTypes(Class<?> clazz) {
+    private static Map<String, String> getColumnsAgainstTypes(Class<?> clazz) {
         Set<Field> fields = ReflectionUtils.getAllFields(clazz);
 
         Map<String, String> result = new HashMap<>();

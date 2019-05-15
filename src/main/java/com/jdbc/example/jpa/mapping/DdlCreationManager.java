@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class DmlCreationManager {
+public class DdlCreationManager {
 
     private final String packageScan;
     private final String dataBaseName;
     private final Connection connection;
     private final Map<String, String> javaTypesAgainstSqlTypes = new HashMap<>();
 
-    public DmlCreationManager(String packageScan, String dataBaseName, Connection connection) {
+    public DdlCreationManager(String packageScan, String dataBaseName, Connection connection) {
         this.packageScan = packageScan;
         this.dataBaseName = dataBaseName;
         this.connection = connection;
@@ -26,7 +26,7 @@ public class DmlCreationManager {
 
     }
 
-    public void createDataBaseDml() {
+    public void createDataBaseDdl() {
         generateSqlForTables().forEach(sql -> {
             try {
                 connection.createStatement().execute(sql);

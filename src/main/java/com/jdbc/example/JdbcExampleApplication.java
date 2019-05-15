@@ -1,11 +1,9 @@
 package com.jdbc.example;
 
-import com.jdbc.example.jpa.mapping.DmlCreationManager;
-import com.jdbc.example.repository.ProductRepository;
-import com.jdbc.example.service.IProductService;
-import com.jdbc.example.service.ProductService;
+import com.jdbc.example.jpa.mapping.DdlCreationManager;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class JdbcExampleApplication {
 
@@ -15,9 +13,9 @@ public class JdbcExampleApplication {
         DBManager.init(dbParams[0], dbParams[1], dbParams[2]);
         Connection connection = DBManager.getInstance().getConnection();
 
-        DmlCreationManager creationManager =
-                new DmlCreationManager("com.jdbc.example.domain", "jdbc-example", connection);
-        creationManager.createDataBaseDml();
+        DdlCreationManager creationManager =
+                new DdlCreationManager("com.jdbc.example.domain", "jdbc-example", connection);
+        creationManager.createDataBaseDdl();
 
     }
 
