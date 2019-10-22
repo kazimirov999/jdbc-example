@@ -8,3 +8,5 @@ docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_D
 
 Connect to DB
 docker exec -it mysql1 mysql -uroot -p
+
+Program arguments - jdbc:mysql://localhost/jdbc-example root secret
